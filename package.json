@@ -1,0 +1,13 @@
+{
+  "name": "ci-cd-trials",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
