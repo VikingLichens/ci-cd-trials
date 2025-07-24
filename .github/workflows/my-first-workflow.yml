@@ -13,10 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Echo debugging info
-        run: echo Starting the build
-
-      - name: Run a multi-line script
+      - name: install dependencies
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo installing dependencies using Bun
+          bun install
+
+      - name: running unit tests
+        run: |
+          echo Running unit tests using Vitest
+          bun test
