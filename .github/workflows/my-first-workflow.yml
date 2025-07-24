@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          version: latest
+
       - name: install dependencies
         run: |
           echo installing dependencies using Bun
