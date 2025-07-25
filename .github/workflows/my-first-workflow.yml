@@ -20,10 +20,8 @@ jobs:
           method: GET
       - name: Display Chuck Norris joke content
         run: |
-          echo "🎭 Chuck Norris Joke:"
+          echo "🎭 Chuck Norris Joke Api call result: ${{ fromJson(steps.chuck_step.outputs.output).statusCode }}"
           echo "${{ fromJson(steps.chuck_step.outputs.output).data.value }}"
-          echo ""
-          echo "📊 HTTP Status: ${{ fromJson(steps.chuck_step.outputs.output).statusCode }}"
       - name: Install dependencies
         run: bun install
       - name: Run unit tests
