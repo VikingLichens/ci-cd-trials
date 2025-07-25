@@ -26,3 +26,5 @@ jobs:
         run: bun install
       - name: Run unit tests
         run: bun test
+      - name: Bundle the project using tsup
+        run: bun run build
