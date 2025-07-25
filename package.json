@@ -1,6 +1,7 @@
 {
-  "name": "ci-cd-auto-publish-on-version-bump-demo",
-  "version": "1.0.0",
+  "name": "@amwebexpert/ci-cd-auto-publish-on-version-bump-demo",
+  "version": "1.0.3",
+  "private": false,
   "main": "index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
