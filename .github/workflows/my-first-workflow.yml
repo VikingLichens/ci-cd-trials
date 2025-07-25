@@ -1,30 +1,65 @@
 name: CI-CD André Trials
+
 on:
   push:
     branches: [ "main" ]
+
   workflow_dispatch:
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Install Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-      - name: Chuck Norris is talking
-        id: chuck_step
-        uses: Satak/webrequest-action@v1.2.3
-        with:
-          url: https://api.chucknorris.io/jokes/random
-          method: GET
-      - name: Display Chuck Norris joke content
-        run: |
-          echo "🎭 Chuck Norris Joke Api call result: ${{ fromJson(steps.chuck_step.outputs.output).statusCode }}"
-          echo "${{ fromJson(steps.chuck_step.outputs.output).data.value }}"
+
       - name: Install dependencies
         run: bun install
+
       - name: Run unit tests
         run: bun test
+
+      - name: Check the version
+        id: check
+        run: |
+          CURRENT_VERSION=$(jq -r .version package.json)
+          echo "Current version: $CURRENT_VERSION"
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "Latest tag: $LATEST_TAG"
+
+          LATEST_VERSION=${LATEST_TAG#v}
+
+          if [ "$LATEST_VERSION" != "$CURRENT_VERSION" ]; 
+          then
+            echo "Version changed"
+            echo "version_changed=true" >> $GITHUB_OUTPUT
+            echo "new_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "Version not changed"
+            echo "version_changed=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Bundle the project using tsup
         run: bun run build
+        if: steps.check.outputs.version_changed == 'true'
+      
+      - name: Publish
+        if: steps.check.outputs.version_changed == 'true'
+        run: npm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Tag release
+        if: steps.check.outputs.version_changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git tag -a "v${{ steps.check.outputs.new_version }}" -m "v${{ steps.check.outputs.new_version }}"
+          git push origin "v${{ steps.check.outputs.new_version }}"
