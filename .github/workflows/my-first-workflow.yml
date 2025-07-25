@@ -26,8 +26,8 @@ jobs:
 
       - name: Display Chuck's joke
         run: |
-          $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
-          Write-Host "statusCode $($output.statusCode) joke: $($output.data.value)"
+          echo "Status code: ${{ steps.webhook.outputs.statusCode }}"
+          echo '${{ steps.webhook.outputs.output }}' | jq -r '.data.value'          
 
       - name: install dependencies
         run: |
