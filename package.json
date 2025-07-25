@@ -1,5 +1,5 @@
 {
-  "name": "ci-cd-trials",
+  "name": "ci-cd-auto-publish-on-version-bump-demo",
   "version": "1.0.0",
   "main": "index.js",
   "module": "dist/index.mjs",
@@ -8,6 +8,9 @@
   "files": [
     "dist"
   ],
+  "license": "MIT",
+  "author": "amwebexpert@gmail.com",
+  "keywords": ["ci", "cd", "trials"],
   "repository": {
     "type": "git",
     "url": "https://github.com/VikingLichens/ci-cd-trials"
