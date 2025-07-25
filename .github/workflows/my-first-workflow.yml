@@ -22,6 +22,12 @@ jobs:
         uses: Satak/webrequest-action@v1.2.3
         with:
           url: https://api.chucknorris.io/jokes/random
+          method: GET
+
+      - name: Display Chuck's joke
+        run: |
+          $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
+          Write-Host "statusCode $($output.statusCode) joke: $($output.data.value)"
 
       - name: install dependencies
         run: |
