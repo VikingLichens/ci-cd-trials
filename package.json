@@ -1,13 +1,30 @@
 {
   "name": "ci-cd-trials",
   "version": "1.0.0",
+  "main": "index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VikingLichens/ci-cd-trials"
+  },
+  "homepage": {
+    "type": "git",
+    "url": "https://github.com/VikingLichens/ci-cd-trials"
+  },
   "scripts": {
+    "build": "tsup",
     "test": "vitest"
   },
+  "dependencies": {},
   "devDependencies": {
+    "lodash": "^4.17.21",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
     "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "lodash": "^4.17.21"
   }
 }
