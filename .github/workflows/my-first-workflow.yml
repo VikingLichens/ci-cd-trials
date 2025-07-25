@@ -1,37 +1,30 @@
 name: CI-CD André Trials
-
 on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Install Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-
       - name: Chuck Norris is talking
         id: chuck_step
         uses: Satak/webrequest-action@v1.2.3
         with:
           url: https://api.chucknorris.io/jokes/random
           method: GET
-
       - name: Display Chuck Norris joke content
         run: |
-          RESPONSE='${{ steps.chuck.outputs.output }}'
-          echo "Status: $(echo "$RESPONSE" | jq -r '.statusCode')"
-          echo "Joke: $(echo "$RESPONSE" | jq -r '.data.value')"
-
+          echo "🎭 Chuck Norris Joke:"
+          echo "${{ fromJson(steps.chuck_step.outputs.output).data.value }}"
+          echo ""
+          echo "📊 HTTP Status: ${{ fromJson(steps.chuck_step.outputs.output).statusCode }}"
       - name: Install dependencies
         run: bun install
-
       - name: Run unit tests
         run: bun test
