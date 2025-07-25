@@ -24,10 +24,10 @@ jobs:
           url: https://api.chucknorris.io/jokes/random
           method: GET
 
-      - name: Display Chuck's joke
+      - name: Display Chuck Norris joke content
         run: |
           echo "Status code: ${{ steps.chuck_step.outputs.statusCode }}"
-          echo '${{ steps.chuck_step.outputs.output }}' | jq -r '.value'
+          echo '${{ steps.chuck_step.outputs.output }}' | jq -r '.data.value'
 
       - name: Install dependencies
         run: bun install
